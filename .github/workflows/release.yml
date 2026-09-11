@@ -1,20 +1,17 @@
-# Clipplo Android CI — free on public repos.
-# Builds the Night One scaffold and runs JVM unit tests on every push/PR
-# that touches android/ (plus manual runs).
-name: android
+# Clipplo releases — push a tag like v0.2.0 and this builds, tests,
+# and publishes a downloadable APK on the GitHub Release. No local SDK needed.
+name: release
 
 on:
   push:
-    paths:
-      - "android/**"
-      - ".github/workflows/android.yml"
-  pull_request:
-    paths:
-      - "android/**"
-  workflow_dispatch:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -28,7 +25,6 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      # ubuntu-latest images ship the SDK, but sdkmanager is not on PATH.
       - name: Install SDK packages
         run: |
           set -e
@@ -53,11 +49,20 @@ jobs:
       - name: Build + unit tests
         run: gradle :app:assembleDebug :app:testDebugUnitTest --stacktrace
 
-      - name: Upload debug APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: clipplo-debug
-          # NOTE: uses-steps ignore defaults.run.working-directory,
-          # so this path is relative to the repo root.
-          path: android/app/build/outputs/apk/debug/*.apk
-          if-no-files-found: error
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          APK=(app/build/outputs/apk/debug/*.apk)
+          test -f "${APK[0]}"
+          VERSION="${GITHUB_REF_NAME#v}"
+          cp "${APK[0]}" "clipplo-${VERSION}.apk"
+          gh release create "$GITHUB_REF_NAME" "clipplo-${VERSION}.apk" \
+            --title "Clipplo $GITHUB_REF_NAME" \
+            --notes "Night One test build (debug-signed).
+
+          Install: download the APK on your phone, open it, allow install from this source.
+          Debug builds show the standard unknown-developer prompt — expected.
+
+          $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
