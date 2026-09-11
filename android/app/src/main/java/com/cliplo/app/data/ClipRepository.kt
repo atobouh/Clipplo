@@ -39,21 +39,21 @@ class ClipRepository(
 
     suspend fun capture(rawText: String, sourceApp: String?): CaptureResult {
         val text = rawText.trim()
-        if (text.isEmpty()) return Blocked(BlockReason.PAUSED)
-        if (prefs.enabled.first().not()) return Blocked(BlockReason.PAUSED)
+        if (text.isEmpty()) return CaptureResult.Blocked(BlockReason.PAUSED)
+        if (prefs.enabled.first().not()) return CaptureResult.Blocked(BlockReason.PAUSED)
         if (sourceApp != null && prefs.excludedApps.first().contains(sourceApp)) {
-            return Blocked(BlockReason.EXCLUDED_APP)
+            return CaptureResult.Blocked(BlockReason.EXCLUDED_APP)
         }
 
         val normalized = Normalize.run(text)
         dao.findByIdentity(normalized.identity)?.let { existing ->
             dao.recordReuse(existing.id)
-            return Duplicate(existing)
+            return CaptureResult.Duplicate(existing)
         }
 
         if (!TrialGate.isTrialActive(context)) {
             if (dao.activeCount() >= TrialGate.MAX_FREE_CLIPS) {
-                return Blocked(BlockReason.FREE_LIMIT)
+                return CaptureResult.Blocked(BlockReason.FREE_LIMIT)
             }
         }
 
@@ -72,7 +72,7 @@ class ClipRepository(
             isSensitive = classification.sensitive,
         )
         val id = dao.insert(clip)
-        return Captured((dao.getById(id) ?: clip))
+        return CaptureResult.Captured((dao.getById(id) ?: clip))
     }
 
     /** Foreground clipboard poll. Call only while the app is focused (OS rule). */
