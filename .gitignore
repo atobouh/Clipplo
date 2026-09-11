@@ -1,0 +1,26 @@
+# Android (generated, local SDK state)
+.gradle/
+build/
+**/build/
+local.properties
+*.iml
+.idea/
+captures/
+.externalNativeBuild/
+.cxx/
+*.hprof
+
+# Room schema exports are versioned intentionally — keep them.
+# app/schemas/ stays tracked.
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+
+# ui-proto scratch output
+ui-proto/tmp/
+ui-proto/.firecrawl/
+
+# Archived pre-unification history (restorable backup, never pushed)
+/.git-archive/

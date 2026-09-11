@@ -1,0 +1,64 @@
+/* Cliplo onboarding: a five-beat story before setup. */
+.onboarding-active { overflow:hidden; }
+.onboarding-active .app > .screen,
+.onboarding-active .backdrop,
+.onboarding-active .ctx,
+.onboarding-active .detail,
+.onboarding-active .detail-scrim { display:none !important; }
+.onboarding-active .app { min-height:100svh; padding:0 22px max(22px,env(safe-area-inset-bottom)); }
+.onboarding { width:100%; min-height:100svh; max-width:398px; margin:auto; display:flex; flex-direction:column; padding:22px 0 0; animation:onboardIn .38s var(--ease-out) both; }
+@keyframes onboardIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.onboarding-top { display:flex; align-items:center; justify-content:space-between; min-height:36px; }
+.onboarding-brand { display:flex; align-items:center; gap:8px; color:var(--txt-strong); font-family:"Sora",sans-serif; font-size:17px; font-weight:700; letter-spacing:-.06em; }
+.onboarding-mark { width:28px; height:28px; display:grid; place-items:center; border-radius:9px; color:var(--on-accent); background:var(--accent); box-shadow:0 1px 0 rgba(255,255,255,.22) inset; }
+.onboarding-mark .iconify { font-size:15px; }
+.onboarding-skip { min-height:44px; border:0; background:transparent; color:var(--txt-dim); padding:8px 1px; font:600 12px "Instrument Sans",sans-serif; cursor:pointer; }
+.onboarding-skip:hover { color:var(--txt-strong); }
+.onboarding-screen { display:none; flex:1; }
+.onboarding-screen.active { display:flex; flex-direction:column; animation:screenIn .36s var(--ease-out) both; }
+@keyframes screenIn { from { opacity:0; transform:translateX(9px); } to { opacity:1; transform:none; } }
+.onboarding-content { flex:1; display:flex; flex-direction:column; padding-top:clamp(34px,8vh,72px); }
+.onboarding-kicker { color:var(--accent); font:700 10px "Instrument Sans",sans-serif; letter-spacing:.17em; text-transform:uppercase; }
+.onboarding h1 { max-width:355px; margin:13px 0 12px; color:var(--txt-strong); font-family:"Sora",sans-serif; font-size:clamp(32px,9.2vw,43px); line-height:1.04; letter-spacing:-.07em; }
+.onboarding-copy { max-width:340px; color:var(--txt-sub); font:400 15px/1.52 "Instrument Sans",sans-serif; letter-spacing:-.018em; }
+.onboarding-scene { height:clamp(180px,29vh,246px); margin:20px 0 8px; display:grid; place-items:center; position:relative; }
+.onboarding-scene img { width:min(232px,72vw); height:min(232px,72vw); object-fit:contain; display:block; }
+.onboarding-actions { padding:12px 0 18px; display:flex; flex-direction:column; gap:9px; }
+.onboarding-primary, .onboarding-secondary { min-height:52px; border-radius:16px; font:700 14px "Instrument Sans",sans-serif; letter-spacing:-.01em; cursor:pointer; }
+.onboarding-primary { border:0; background:var(--accent); color:var(--on-accent); box-shadow:0 1px 0 rgba(255,255,255,.22) inset,0 12px 28px -18px var(--accent-glow); }
+.onboarding-secondary { border:1px solid var(--line-strong); background:transparent; color:var(--txt-sub); }
+.onboarding-primary:active, .onboarding-secondary:active { transform:scale(.985); }
+.onboarding-progress { display:flex; gap:5px; margin-bottom:12px; }
+.onboarding-progress i { height:3px; flex:1; border-radius:99px; background:var(--surface-3); transition:background .22s var(--ease),transform .22s var(--ease); }
+.onboarding-progress i.active { background:var(--accent); }
+.onboarding-progress i.current { transform:scaleY(1.4); }
+
+/* Recognition is content, not a category selector. */
+.onboarding-recognition { width:100%; max-width:310px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; align-items:end; }
+.recognition-item { min-height:76px; padding:11px 9px; display:flex; flex-direction:column; justify-content:space-between; border:1px solid var(--line-strong); border-radius:17px; background:var(--surface); box-shadow:0 1px 0 var(--hi) inset; }
+.recognition-item:nth-child(2) { transform:translateY(-12px); }
+.recognition-item:nth-child(3) { transform:translateY(5px); }
+.recognition-item img { width:42px; height:42px; object-fit:contain; }
+.recognition-item span { color:var(--txt-dim); font:600 10px "Instrument Sans",sans-serif; letter-spacing:-.02em; }
+
+/* The handoff is deliberately a note, not founder branding. */
+.onboarding-note { width:100%; max-width:320px; padding:21px; border:1px solid var(--line-strong); border-radius:20px; background:var(--surface); box-shadow:var(--elev); }
+.onboarding-note-mark { width:34px; height:34px; display:grid; place-items:center; margin-bottom:16px; border-radius:11px; background:var(--accent-soft); color:var(--accent); }
+.onboarding-note p { color:var(--txt-strong); font:500 16px/1.42 "Instrument Sans",sans-serif; letter-spacing:-.028em; }
+.onboarding-note small { display:block; margin-top:13px; color:var(--txt-dim); font:600 11px "Instrument Sans",sans-serif; }
+
+/* Setup comes after intent and shows one truthful reason at a time. */
+.onboarding-setup-card { width:100%; padding:17px; border:1px solid var(--line-strong); border-radius:20px; background:var(--surface); box-shadow:var(--elev); }
+.setup-card-icon { width:38px; height:38px; display:grid; place-items:center; margin-bottom:15px; border-radius:13px; background:var(--accent-soft); color:var(--accent); }
+.setup-card-icon .iconify { font-size:19px; }
+.onboarding-setup-card strong { display:block; color:var(--txt-strong); font:700 14px "Instrument Sans",sans-serif; letter-spacing:-.025em; }
+.onboarding-setup-card p { margin-top:5px; color:var(--txt-dim); font:400 12px/1.5 "Instrument Sans",sans-serif; }
+.setup-path { display:flex; align-items:center; gap:8px; margin-top:16px; color:var(--txt-sub); font:600 11px "Instrument Sans",sans-serif; }
+.setup-path i { width:24px; height:1px; background:var(--line-strong); }
+.setup-dot { width:25px; height:25px; display:grid; place-items:center; border-radius:9px; background:var(--surface-2); color:var(--accent); }
+.setup-dot .iconify { font-size:13px; }
+.onboarding-setup-status { min-height:20px; padding:2px 1px 0; color:var(--accent); font:600 11px "Instrument Sans",sans-serif; }
+.onboarding-screen[data-setup="true"] .onboarding-content { padding-top:clamp(46px,12vh,105px); }
+.onboarding-screen[data-setup="true"] .onboarding-scene { height:clamp(170px,27vh,220px); margin-top:26px; }
+@media (max-height:690px) { .onboarding-content { padding-top:25px; } .onboarding-scene { height:170px; margin:12px 0 0; } .onboarding-screen[data-setup="true"] .onboarding-content { padding-top:35px; } }
+@media (prefers-reduced-motion:reduce) { .onboarding, .onboarding-screen.active { animation:none; } .onboarding-progress i { transition:none; } }
