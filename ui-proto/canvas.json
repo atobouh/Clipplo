@@ -1,11 +1,11 @@
 {
   "artboards": [
-    { "file": "Main.dc.html",       "title": "Home — Recent",     "x": 0,    "y": 0,    "w": 390, "h": 820 },
-    { "file": "Collections.dc.html", "title": "Collections",       "x": 470,  "y": 0,    "w": 390, "h": 800 },
-    { "file": "Keyboard.dc.html",    "title": "Cliplo Keyboard",   "x": 940,  "y": 0,    "w": 390, "h": 720 },
-    { "file": "ClipDetail.dc.html",  "title": "Clip detail",       "x": 0,    "y": 1000, "w": 390, "h": 720 },
-    { "file": "Vault.dc.html",       "title": "Vault",             "x": 470,  "y": 1000, "w": 390, "h": 620 },
-    { "file": "Settings.dc.html",    "title": "Settings",          "x": 940,  "y": 1000, "w": 390, "h": 880 }
+    { "file": "Main.dc.html",        "title": "Home — Recent",   "x": 0,    "y": 0,    "w": 390, "h": 1060 },
+    { "file": "Collections.dc.html", "title": "Collections",     "x": 470,  "y": 0,    "w": 390, "h": 1000 },
+    { "file": "Keyboard.dc.html",    "title": "Cliplo Keyboard", "x": 940,  "y": 0,    "w": 390, "h": 560  },
+    { "file": "ClipDetail.dc.html",  "title": "Clip detail",     "x": 0,    "y": 1200, "w": 390, "h": 1060 },
+    { "file": "Vault.dc.html",       "title": "Vault",           "x": 470,  "y": 1200, "w": 390, "h": 1060 },
+    { "file": "Settings.dc.html",    "title": "Settings",        "x": 940,  "y": 1200, "w": 390, "h": 900  }
   ],
   "launch": { "view": "canvas" }
 }
