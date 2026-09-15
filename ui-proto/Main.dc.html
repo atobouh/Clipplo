@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+/* Cliplo canvas — shared stylesheet (mineral / ink / paper), lifted from ui-proto tokens */
+*{box-sizing:border-box;margin:0;padding:0}
+.cx{
+  font-family:"Instrument Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  width:390px;min-height:100%;background:var(--page);color:var(--txt);
+  position:relative;overflow:hidden;
+}
+.cx-dark{
+  --page:#151918;--surface:#202624;--surface-2:#282F2D;--surface-3:#313A37;
+  --line:rgba(255,255,255,.10);--line-strong:rgba(255,255,255,.17);--hi:rgba(255,255,255,.05);
+  --txt:#F1F4EF;--txt-strong:#FFFFFF;--txt-sub:#BDC8C2;--txt-dim:#8C9993;--txt-faint:#69766F;
+  --accent:#77C8AD;--accent-strong:#58AF92;--accent-soft:rgba(119,200,173,.13);--accent-glow:rgba(88,175,146,.30);--on-accent:#10251E;
+  --rose:#EF8B8A;--rose-soft:rgba(239,139,138,.12);
+}
+.cx-light{
+  --page:#F3F2ED;--surface:#FFFEFA;--surface-2:#EEEEE8;--surface-3:#E3E3DB;
+  --line:rgba(22,27,29,.09);--line-strong:rgba(22,27,29,.16);--hi:rgba(255,255,255,.95);
+  --txt:#202629;--txt-strong:#111719;--txt-sub:#596366;--txt-dim:#858E90;--txt-faint:#AAB1B0;
+  --accent:#287D6B;--accent-strong:#176454;--accent-soft:rgba(40,125,107,.11);--accent-glow:rgba(40,125,107,.20);--on-accent:#FFFFFF;
+  --rose:#CE5F5E;--rose-soft:rgba(206,95,94,.10);
+}
+.cx::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;}
+.cx-dark::before{background:radial-gradient(60% 40% at 12% -5%,rgba(119,200,173,.12),transparent 62%),radial-gradient(55% 38% at 92% 100%,rgba(40,125,107,.10),transparent 60%);}
+.cx-light::before{background:radial-gradient(60% 40% at 12% -5%,rgba(40,125,107,.10),transparent 62%),radial-gradient(55% 38% at 92% 100%,rgba(119,200,173,.08),transparent 60%);}
+.pad{position:relative;z-index:1;padding:22px 18px 26px}
+svg{display:block}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:13px}
+.brand-ic{width:36px;height:36px;border-radius:11px;background:var(--surface-2);display:grid;place-items:center;color:var(--txt-strong)}
+.brand-h1{font-size:20px;font-weight:700;letter-spacing:-.032em;line-height:1.1;color:var(--txt-strong)}
+.brand-sub{display:block;font-size:12px;color:var(--txt-dim);font-weight:500;margin-top:2px}
+.top-actions{display:flex;gap:6px;align-items:center}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:none;background:transparent;color:var(--txt-dim);display:grid;place-items:center;cursor:pointer}
+.view-toggle{display:flex;background:var(--surface-2);border-radius:11px;padding:3px;gap:2px}
+.vt-btn{width:34px;height:32px;border:none;border-radius:9px;background:transparent;color:var(--txt-dim);display:grid;place-items:center;cursor:pointer}
+.vt-btn.on{background:var(--surface);color:var(--txt-strong);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.capture{background:var(--surface-2);border-radius:14px;margin-bottom:18px;min-height:56px;display:flex;align-items:center;gap:8px;padding:0 12px}
+.cx-light .capture{background:#fff;border:1px solid var(--line-strong)}
+.mode-ic{width:40px;height:40px;border-radius:10px;flex:0 0 40px;display:grid;place-items:center;color:var(--txt-sub)}
+.capture-hint{flex:1;min-width:0;color:var(--txt-faint);font-size:14px;font-weight:500}
+.ph{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:999px;font-size:12px;font-weight:600;color:var(--txt-dim)}
+.ph.on{background:linear-gradient(180deg,var(--accent),var(--accent-strong));color:var(--on-accent);box-shadow:0 1px 0 rgba(255,255,255,.22) inset}
+.vault-strip{display:flex;align-items:center;gap:13px;padding:14px 15px;border-radius:16px;background:var(--surface);border:1px solid var(--line);margin-bottom:18px}
+.vault-art{width:40px;height:40px;border-radius:12px;flex:0 0 auto;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.vault-copy{flex:1;min-width:0}
+.vault-copy strong{display:block;font-size:14.5px;font-weight:700;letter-spacing:-.015em;color:var(--txt-strong)}
+.vault-copy small{display:block;font-size:12px;color:var(--txt-dim);margin-top:2px}
+.label{font-size:11px;font-weight:700;color:var(--txt-faint);text-transform:uppercase;letter-spacing:.16em;margin:0 4px 13px}
+.feed{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.clip{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.clip:last-child{border-bottom:none}
+.tile{width:40px;height:40px;border-radius:12px;flex:0 0 auto;display:grid;place-items:center;background:var(--surface-2)}
+.clip-body{flex:1;min-width:0}
+.catch{font-size:10.5px;font-weight:700;color:var(--txt-faint);text-transform:uppercase;letter-spacing:.13em;margin-bottom:3px}
+.clip-title{font-size:14.5px;font-weight:600;letter-spacing:-.018em;line-height:1.32;color:var(--txt-strong);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.meta{font-size:12px;color:var(--txt-dim);margin-top:4px;font-weight:500}
+.copy{width:36px;height:36px;border-radius:11px;border:none;background:transparent;color:var(--txt-faint);display:grid;place-items:center;flex:0 0 auto;cursor:pointer}
+.t-youtube{color:#FF4A42}.t-telegram{color:#2AA3E0}.t-instagram{color:#D159A8}.t-github{color:var(--txt-strong)}.t-generic{color:var(--txt-dim)}.t-accent{color:var(--accent)}
+a{color:var(--accent)}a:hover{color:var(--accent-strong)}
+  </style>
+</helmet>
+
+<div class="cx {{themeClass}}">
+  <div class="pad">
+
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-ic">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+        </div>
+        <div>
+          <div class="brand-h1">Cliplo</div>
+          <small class="brand-sub">your reusable memory</small>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+        <button class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 8h.01M12 12h.01M14 8h.01M16 12h.01M18 8h.01M6 8h.01M7 16h10M8 12h.01M6 12h.01"/><rect width="20" height="16" x="2" y="4" rx="2"/></svg></button>
+        <div class="view-toggle">
+          <button class="vt-btn on"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h.01M3 18h.01M3 6h.01M8 12h13M8 18h13M8 6h13"/></svg></button>
+          <button class="vt-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></button>
+        </div>
+        <button class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></button>
+      </div>
+    </div>
+
+    <div class="capture">
+      <div class="mode-ic">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+      </div>
+      <span class="capture-hint">Tap the icon to switch mode</span>
+      <span class="ph on"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg> Search</span>
+    </div>
+
+    <div class="vault-strip">
+      <span class="vault-art"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M10.85 12.15 19 4"/><path d="m18 5 2 2"/><path d="m15 8 2 2"/></svg></span>
+      <span class="vault-copy"><strong>Vault</strong><small>Protected clips, kept private</small></span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--txt-faint)"><path d="m9 18 6-6-6-6"/></svg>
+    </div>
+
+    <div class="label">All clips</div>
+
+    <div class="feed">
+      <div class="clip">
+        <div class="tile t-youtube"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2s-.2-1.4-.8-2c-.75-.8-1.6-.8-2-.85C16 4.2 12 4.2 12 4.2h-.01s-4 0-6.8.2c-.4.05-1.25.05-2 .85-.6.6-.8 2-.8 2S2.2 8.8 2.2 10.5v1.6c0 1.65.2 3.3.2 3.3s.2 1.4.8 2c.75.8 1.75.77 2.2.86 1.6.15 6.6.2 6.6.2s4 0 6.8-.21c.4-.05 1.25-.05 2-.85.6-.6.8-2 .8-2s.2-1.65.2-3.3v-1.6c0-1.65-.2-3.3-.2-3.3ZM9.9 13.9V8.6l5.15 2.66Z"/></svg></div>
+        <div class="clip-body"><div class="catch">YouTube</div><div class="clip-title">Why local-first software is eating the internet</div><div class="meta">2 min ago</div></div>
+        <button class="copy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+      </div>
+      <div class="clip">
+        <div class="tile t-youtube"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2s-.2-1.4-.8-2c-.75-.8-1.6-.8-2-.85C16 4.2 12 4.2 12 4.2h-.01s-4 0-6.8.2c-.4.05-1.25.05-2 .85-.6.6-.8 2-.8 2S2.2 8.8 2.2 10.5v1.6c0 1.65.2 3.3.2 3.3s.2 1.4.8 2c.75.8 1.75.77 2.2.86 1.6.15 6.6.2 6.6.2s4 0 6.8-.21c.4-.05 1.25-.05 2-.85.6-.6.8-2 .8-2s.2-1.65.2-3.3v-1.6c0-1.65-.2-3.3-.2-3.3ZM9.9 13.9V8.6l5.15 2.66Z"/></svg></div>
+        <div class="clip-body"><div class="catch">YouTube</div><div class="clip-title">Compose tip: how to build a deep shadow</div><div class="meta">11 min ago</div></div>
+        <button class="copy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+      </div>
+      <div class="clip">
+        <div class="tile t-telegram"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11.94 2.06a10 10 0 1 0 .12 20 10 10 0 0 0-.12-20Zm4.3 6.63-1.44 6.8c-.1.48-.4.6-.8.37l-2.2-1.62-1.06 1.02c-.12.12-.22.22-.44.22l.16-2.24 4.08-3.68c.18-.16-.04-.25-.28-.1L9.5 12.9l-2.17-.68c-.47-.15-.48-.47.1-.7l8.48-3.27c.4-.14.74.1.6.72Z"/></svg></div>
+        <div class="clip-body"><div class="catch">Telegram</div><div class="clip-title">Announcement — shipping local-first sync</div><div class="meta">26 min ago</div></div>
+        <button class="copy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+      </div>
+      <div class="clip">
+        <div class="tile t-instagram"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></div>
+        <div class="clip-body"><div class="catch">Instagram</div><div class="clip-title">Setup shots — the overcast feed</div><div class="meta">41 min ago</div></div>
+        <button class="copy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+      </div>
+      <div class="clip">
+        <div class="tile t-github"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.66-.22.66-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85 0 1.71.11 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.16.58.67.48A10.02 10.02 0 0 0 22 12c0-5.52-4.48-10-10-10Z"/></svg></div>
+        <div class="clip-body"><div class="catch">GitHub</div><div class="clip-title">octocat/awesome-clipboard</div><div class="meta">14 min ago</div></div>
+        <button class="copy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+      </div>
+      <div class="clip">
+        <div class="tile t-generic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8"/></svg></div>
+        <div class="clip-body"><div class="catch">Notes</div><div class="clip-title">Meeting notes — Q3 planning</div><div class="meta">1 hr ago</div></div>
+        <button class="copy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+      </div>
+      <div class="clip">
+        <div class="tile t-accent"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+        <div class="clip-body"><div class="catch">Link</div><div class="clip-title">tailwindcss.com/docs/flex</div><div class="meta">3 hr ago</div></div>
+        <button class="copy"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script data-dc-script data-props='{"theme":{"editor":"enum","options":["Dark","Light"],"default":"Dark"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { themeClass: this.props.theme === 'Light' ? 'cx-light' : 'cx-dark' };
+  }
+}
+</script>
+</body>
+</html>

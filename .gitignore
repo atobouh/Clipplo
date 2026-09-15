@@ -24,3 +24,6 @@ ui-proto/.firecrawl/
 
 # Archived pre-unification history (restorable backup, never pushed)
 /.git-archive/
+
+# Generated design-canvas payload (published as an Artifact; re-seed from *.dc.html + canvas.json)
+ui-proto/cliplo-app-ui.html

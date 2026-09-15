@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+*{box-sizing:border-box;margin:0;padding:0}
+.cx{font-family:"Instrument Sans",-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;width:390px;min-height:100%;background:var(--page);color:var(--txt);position:relative;overflow:hidden}
+.cx-dark{--page:#151918;--surface:#202624;--surface-2:#282F2D;--surface-3:#313A37;--line:rgba(255,255,255,.10);--line-strong:rgba(255,255,255,.17);--txt:#F1F4EF;--txt-strong:#FFFFFF;--txt-sub:#BDC8C2;--txt-dim:#8C9993;--txt-faint:#69766F;--accent:#77C8AD;--accent-strong:#58AF92;--accent-soft:rgba(119,200,173,.13);--accent-glow:rgba(88,175,146,.30);--on-accent:#10251E;--rose:#EF8B8A}
+.cx-light{--page:#F3F2ED;--surface:#FFFEFA;--surface-2:#EEEEE8;--surface-3:#E3E3DB;--line:rgba(22,27,29,.09);--line-strong:rgba(22,27,29,.16);--txt:#202629;--txt-strong:#111719;--txt-sub:#596366;--txt-dim:#858E90;--txt-faint:#AAB1B0;--accent:#287D6B;--accent-strong:#176454;--accent-soft:rgba(40,125,107,.11);--accent-glow:rgba(40,125,107,.20);--on-accent:#FFFFFF;--rose:#CE5F5E}
+.cx::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0}
+.cx-dark::before{background:radial-gradient(60% 40% at 12% -5%,rgba(119,200,173,.12),transparent 62%),radial-gradient(55% 38% at 92% 100%,rgba(40,125,107,.10),transparent 60%)}
+.cx-light::before{background:radial-gradient(60% 40% at 12% -5%,rgba(40,125,107,.10),transparent 62%),radial-gradient(55% 38% at 92% 100%,rgba(119,200,173,.08),transparent 60%)}
+.pad{position:relative;z-index:1;padding:22px 18px 26px}
+svg{display:block}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:13px}
+.brand-ic{width:36px;height:36px;border-radius:11px;background:var(--surface-2);display:grid;place-items:center;color:var(--txt-strong)}
+.brand-h1{font-size:20px;font-weight:700;letter-spacing:-.032em;line-height:1.1;color:var(--txt-strong)}
+.brand-sub{display:block;font-size:12px;color:var(--txt-dim);font-weight:500;margin-top:2px}
+.top-actions{display:flex;gap:6px;align-items:center}
+.icon-btn{width:40px;height:40px;border-radius:12px;border:none;background:transparent;color:var(--txt-dim);display:grid;place-items:center;cursor:pointer}
+.view-toggle{display:flex;background:var(--surface-2);border-radius:11px;padding:3px;gap:2px}
+.vt-btn{width:34px;height:32px;border:none;border-radius:9px;background:transparent;color:var(--txt-dim);display:grid;place-items:center;cursor:pointer}
+.vt-btn.on{background:var(--surface);color:var(--txt-strong);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.folder-head{margin-bottom:18px}
+.folder-kicker{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.14em;margin-bottom:5px}
+.folder-h2{font-family:"Sora",sans-serif;font-size:26px;font-weight:700;letter-spacing:-.035em;color:var(--txt-strong)}
+.folder-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.folder-card{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:126px;padding:14px;border-radius:18px;background:var(--surface);border:1px solid var(--line);overflow:hidden;cursor:pointer}
+.folder-art{position:absolute;top:12px;left:12px;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.folder-arrow{position:absolute;top:16px;right:14px;color:var(--txt-faint)}
+.folder-card strong{display:block;font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--txt-strong)}
+.folder-card small{display:block;font-size:12px;color:var(--txt-dim);margin-top:2px}
+.folder-card.new{align-items:center;justify-content:center;border-style:dashed;border-color:var(--line-strong);background:transparent}
+.folder-card.new .folder-art{position:static;margin-bottom:8px}
+.folder-card.new strong,.folder-card.new small{text-align:center}
+a{color:var(--accent)}a:hover{color:var(--accent-strong)}
+  </style>
+</helmet>
+
+<div class="cx {{themeClass}}">
+  <div class="pad">
+
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-ic"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></div>
+        <div><div class="brand-h1">Cliplo</div><small class="brand-sub">your reusable memory</small></div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+        <div class="view-toggle">
+          <button class="vt-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h.01M3 18h.01M3 6h.01M8 12h13M8 18h13M8 6h13"/></svg></button>
+          <button class="vt-btn on"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></button>
+        </div>
+        <button class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg></button>
+      </div>
+    </div>
+
+    <div class="folder-head">
+      <div class="folder-kicker">Organized for reuse</div>
+      <div class="folder-h2">Collections</div>
+    </div>
+
+    <div class="folder-grid">
+      <div class="folder-card">
+        <span class="folder-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg></span>
+        <span class="folder-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
+        <strong>Recent</strong><small>7 clips</small>
+      </div>
+      <div class="folder-card">
+        <span class="folder-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
+        <span class="folder-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
+        <strong>Links</strong><small>12 clips</small>
+      </div>
+      <div class="folder-card">
+        <span class="folder-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span>
+        <span class="folder-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
+        <strong>Messages</strong><small>8 clips</small>
+      </div>
+      <div class="folder-card">
+        <span class="folder-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg></span>
+        <span class="folder-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
+        <strong>Code</strong><small>5 clips</small>
+      </div>
+      <div class="folder-card">
+        <span class="folder-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/></svg></span>
+        <span class="folder-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
+        <strong>People &amp; places</strong><small>6 clips</small>
+      </div>
+      <div class="folder-card">
+        <span class="folder-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></svg></span>
+        <span class="folder-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg></span>
+        <strong>Images</strong><small>4 clips</small>
+      </div>
+      <div class="folder-card">
+        <span class="folder-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        <span class="folder-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        <strong>Vault</strong><small>Protected clips</small>
+      </div>
+      <div class="folder-card new">
+        <span class="folder-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg></span>
+        <strong>New folder</strong><small>Make your own</small>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script data-dc-script data-props='{"theme":{"editor":"enum","options":["Dark","Light"],"default":"Dark"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { themeClass: this.props.theme === 'Light' ? 'cx-light' : 'cx-dark' };
+  }
+}
+</script>
+</body>
+</html>
