@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 
 private val LightScheme = lightColorScheme(
     background = CliploColors.PageLight,
@@ -14,7 +15,11 @@ private val LightScheme = lightColorScheme(
     onSurface = CliploColors.InkLight,
     onSurfaceVariant = CliploColors.BodyLight,
     primary = CliploColors.AccentLight,
-    onPrimary = CliploColors.SurfaceLight,
+    onPrimary = CliploColors.OnAccentLight,
+    primaryContainer = CliploColors.AccentSoftLight,
+    onPrimaryContainer = CliploColors.AccentLight,
+    outline = CliploColors.LineStrongLight,
+    outlineVariant = CliploColors.LineLight,
     error = CliploColors.Rose,
 )
 
@@ -26,7 +31,11 @@ private val DarkScheme = darkColorScheme(
     onSurface = CliploColors.InkDark,
     onSurfaceVariant = CliploColors.BodyDark,
     primary = CliploColors.AccentDark,
-    onPrimary = CliploColors.PageDark,
+    onPrimary = CliploColors.OnAccentDark,
+    primaryContainer = CliploColors.AccentSoftDark,
+    onPrimaryContainer = CliploColors.AccentDark,
+    outline = CliploColors.LineStrongDark,
+    outlineVariant = CliploColors.LineDark,
     error = CliploColors.Rose,
 )
 
@@ -36,8 +45,12 @@ fun CliploTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    MaterialTheme(
-        colorScheme = if (darkTheme) DarkScheme else LightScheme,
-        content = content,
-    )
+    CompositionLocalProvider(LocalCliplo provides if (darkTheme) DarkPalette else LightPalette) {
+        MaterialTheme(
+            colorScheme = if (darkTheme) DarkScheme else LightScheme,
+            typography = CliploTypography,
+            shapes = CliploShapes,
+            content = content,
+        )
+    }
 }
